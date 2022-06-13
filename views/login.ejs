@@ -14,124 +14,78 @@
         body{
             font-family: 'Poppins' ,sans-serif;
             background: linear-gradient(120deg, #2980b9, #8e44ad);
-        }
+                }
 
-        h1{
-            margin: 15px 0 25px;
-            text-align: center;
-            font-size: 25px;
-        }
+                h1{
+                    margin: 15px 0 25px;
+                    text-align: center;
+                    font-size: 25px;
+                }
 
-        input{
-            color: #022255 !important;
-        }
+                input{
+                    color: #022255 !important;
+                }
 
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        input[input="text"]:focus {
-            box-shadow: 0 0 5px rgba(246, 8, 118, .8);
-            border: 1px solid rgba(246, 8,110, .8);
-        }
+                input[type="email"]:focus,
+                input[type="password"]:focus,
+                input[input="text"]:focus {
+                    box-shadow: 0 0 5px rgba(246, 8, 118, .8);
+                    border: 1px solid rgba(246, 8,110, .8);
+                }
 
-        .container{
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+                .container{
+                    width: 100%;
+                    height: 100vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
 
-        .form-horizontal{
-            width: 400px;
-            background-color: #ffffff;
-            padding: 25px 30px;
-            border-radius: 12px;
-            box-shadow: 2px 2px 15px rgba(0,0,0,.5);
-        }
-        .control-label{
-            text-align: left !important;
-            padding-bottom: 4px;
-        }
-        .progress{
-            height: 3px !important;
-        }
-        .form-group{
-            margin-bottom: 10px;
-        }
-        .show-pass{
-            position: absolute;
-            top: 5%;
-            right: 8%;
-        }
-        .progress-bar-danger{
-            background-color: #e90f10;
-        }
-        .progress-bar-warning{
-            background-color: #ffad00;
-        }
-        .progress-bar-success{
-            background-color: #02b502;
-        }
-        .login-btn{
-            width: 180px !important;
-            
-            background-image: linear-gradient(to right, #2691d9, #158bda) !important;
-            font-size: 18px;
-            color: #ffffff;
-            margin: 0 auto 5px;
-            padding: 8px 0;
-        }
-        .login-btn:hover{
-            background-image: linear-gradient(to right, rgba(222, 13, 230, 0.863),rgba(215, 5, 223, 0.863)) !important;
-            color: #ffffff;
-        }
-        .fa-eye{
-            color: #022255;
-            cursor: pointer;
-        }
-        .far{
-            margin-top: 5px;
-        }
-        .ex-account p a{
-            color: #f6086e;
-            text-decoration: underline;
-        }
-        .fa-circle{
-            font-size: 6px;
-            margin-right: 13px;
-        }
-        .fa-check{
-            color: #02b502;
-        }
+                .form-horizontal{
+                    width: 400px;
+                    background-color: #ffffff;
+                    padding: 25px 30px;
+                    border-radius: 12px;
+                    box-shadow: 2px 2px 15px rgba(0,0,0,.5);
+                }
+                .control-label{
+                    text-align: left !important;
+                    padding-bottom: 4px;
+                }
+
+                .form-group{
+                    margin-bottom: 10px;
+                }
+          
+                .login-btn{
+                    width: 180px !important;
+                    
+                    background-image: linear-gradient(to right, #2691d9, #158bda) !important;
+                    font-size: 18px;
+                    color: #ffffff;
+                    margin: 0 auto 5px;
+                    padding: 8px 0;
+                }
+                .login-btn:hover{
+                    background-image: linear-gradient(to right, rgba(222, 13, 230, 0.863),rgba(215, 5, 223, 0.863)) !important;
+                    color: #ffffff;
+                }
+                
     </style>
 </head>
 <body>
-   <ul>
+   <ul style ="text-align: center;">
        <% if (messages.success_msg) { %>
-        <li><%= messages.success_msg %></li>
+        <li style ="text-align: center;"><%= messages.success_msg %></li>
         <% } %>
    </ul>
    
-   <ul>
+   <ul style ="text-align: center;"l>
         <% if (messages.error) { %>
-        <li><%= messages.error %></li>
+        <li style ="text-align: center;"><%= messages.error %></li>
         <% } %>
     </ul>
 
-    <!-- <form action="/users/login" method="POST">
-        <div>
-            <input type="email" id="email" name="email" placeholder="Email" required/>
-        </div>
-        <div>
-            <input type="password" id="password" name="password" placeholder="Password"/>
-        </div>
-        <div>
-            <input type="submit" value="Login"/>
-        </div>
-        <div>
-            <a href="/users/register">Don't Have Account, Go to Register</a>
-        </div>
-</form> -->
 <div class="container">
     <form action="/users/login" method="POST" class="form-horizontal" id="validateForm">
         <h1>Log In</h1>
@@ -165,32 +119,6 @@
         </fieldset>
     </form>
 </div>
-    <!-- <script>
-        document.getElementById('validateForm').addEventListener('submit', onSubmit);
-
-        function onSubmit(e){
-            e.preventDefault();
-
-            grecaptcha.execute('6LeTAWYgAAAAAPaX6MJcqnxN3Xn_qAnNYkr7V7t1', {action: 'submit'}).then(function(token) {
-
-            // This data is not being used in the back end (Only the token)
-            const email = document.querySelector('#email').value;
-            const password = document.querySelector('#password').value;
-            const captcha = token;
-
-                fetch('/users/login',{
-                method: 'POST',
-                headers:{
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
-                    
-                },
-                body:JSON.stringify({email:email,password:password,captcha:captcha})
-                }).then(res => res.json())
-                .then(data => { alert("msg: " + data.msg + ", success?: " + data.success + ", score: " + data.score)})     
-
-            });
-        }
-    </script> -->
+  
 </body>
 </html>

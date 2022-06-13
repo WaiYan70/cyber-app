@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const secretKey = '6LeTAWYgAAAAAL4TZttcbAemyB6-9qLTt-L7b5mW';
 const { pool } = require('./db.js');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
@@ -90,8 +89,8 @@ app.post("/users/register", async (req, res) => {
     if(!name || !email || !password || !password2){
         errors.push({message: "Please enter all fields"});
     }
-    if(password.length < 6){
-        errors.push({message: "Password should be at 6 characters"});
+    if(password.length < 8){
+        errors.push({message: "Password should be at 8 characters"});
     }
     if(password !== password2){
         errors.push({message: "Passwords do not match"})
@@ -136,36 +135,6 @@ app.post("/users/register", async (req, res) => {
     }
 } );
 
-// Implement Google captcha
-// app.post("/users/login", (req, res) => {
-//     if(!req.body.captcha){
-//         console.log("err");
-//         return res.flash({"success":false, "msg":"Captcha is not checked"});
-       
-//     }
-
-//     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
-
-//     request(verifyUrl,(err,response,body)=>{
-
-//         if(err){
-//             console.log(err); 
-//         }
-//         body = JSON.parse(body);
-
-//         if(!body.success && body.success === undefined){
-//             return res.flash({"success":false, "msg":"captcha verification failed"});
-//         }
-//         else if(body.score < 0.5){
-//             return res.flash({"success":false, "msg":"you might be a bot, sorry!", "score": body.score});
-//         }
-//         else{
-//             res.json({"success":true, "msg":"captcha verification passed", "score": body.score});
-//             res.redirect("/users/dashboard");
-//             return;
-//         }
-//     })
-// });
 
 //condition after registeration to redirecting dashboard page or login page depend on condition
 app.post("/users/login", passport.authenticate('local', {
