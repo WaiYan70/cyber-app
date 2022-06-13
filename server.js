@@ -1,4 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const secretKey = '6LeTAWYgAAAAAL4TZttcbAemyB6-9qLTt-L7b5mW';
 const { pool } = require('./db.js');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
@@ -7,16 +10,21 @@ const passport = require('passport');
 const initializePassport = require('./passportConfig.js');
 
 const app = express();
+
 // set up our passport to use in the website
 initializePassport(passport);
 
 const  PORT = process.env.PORT || 4000;
 
-app.set("view engine", "ejs");
-
 // Middle Ware
 // send data details from our front end (register and login pages)
 app.use(express.urlencoded({ extended : false }));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
+// Set views
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
 
 // session is used to store our user data details in the user session
 app.use(
@@ -42,7 +50,7 @@ app.use(passport.session());
 // flash is to flash messages when redirect to other pages
 app.use(flash());
 
-// Routes
+// Routing
 app.get("/", (req , res) => {
     res.render("home");
 });
@@ -67,6 +75,8 @@ app.get("/users/dashboard", checkNotAuthenticated, (req , res) => {
   });
 
 //  use Post method to get rquest
+
+// conditioning when registering, response data and message from server side 
 app.post("/users/register", async (req, res) => {
     let { name, email, password, password2 } = req.body;
     console.log({
@@ -125,6 +135,38 @@ app.post("/users/register", async (req, res) => {
         );
     }
 } );
+
+// Implement Google captcha
+// app.post("/users/login", (req, res) => {
+//     if(!req.body.captcha){
+//         console.log("err");
+//         return res.flash({"success":false, "msg":"Captcha is not checked"});
+       
+//     }
+
+//     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
+
+//     request(verifyUrl,(err,response,body)=>{
+
+//         if(err){
+//             console.log(err); 
+//         }
+//         body = JSON.parse(body);
+
+//         if(!body.success && body.success === undefined){
+//             return res.flash({"success":false, "msg":"captcha verification failed"});
+//         }
+//         else if(body.score < 0.5){
+//             return res.flash({"success":false, "msg":"you might be a bot, sorry!", "score": body.score});
+//         }
+//         else{
+//             res.json({"success":true, "msg":"captcha verification passed", "score": body.score});
+//             res.redirect("/users/dashboard");
+//             return;
+//         }
+//     })
+// });
+
 //condition after registeration to redirecting dashboard page or login page depend on condition
 app.post("/users/login", passport.authenticate('local', {
         successRedirect : "/users/dashboard", 

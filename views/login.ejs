@@ -5,9 +5,107 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins%3Awght%40200%3B300%3B400%3B500%3B600&display=swap">
+    <script src="https://kit.fontawesome.com/4b45ccf8de.js" crossorigin="anonymous"></script>
+    <!-- implementing google recapcha api -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeTAWYgAAAAAPaX6MJcqnxN3Xn_qAnNYkr7V7t1"></script>
+    <style>
+        body{
+            font-family: 'Poppins' ,sans-serif;
+            background: linear-gradient(120deg, #2980b9, #8e44ad);
+        }
+
+        h1{
+            margin: 15px 0 25px;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        input{
+            color: #022255 !important;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[input="text"]:focus {
+            box-shadow: 0 0 5px rgba(246, 8, 118, .8);
+            border: 1px solid rgba(246, 8,110, .8);
+        }
+
+        .container{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-horizontal{
+            width: 400px;
+            background-color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 2px 2px 15px rgba(0,0,0,.5);
+        }
+        .control-label{
+            text-align: left !important;
+            padding-bottom: 4px;
+        }
+        .progress{
+            height: 3px !important;
+        }
+        .form-group{
+            margin-bottom: 10px;
+        }
+        .show-pass{
+            position: absolute;
+            top: 5%;
+            right: 8%;
+        }
+        .progress-bar-danger{
+            background-color: #e90f10;
+        }
+        .progress-bar-warning{
+            background-color: #ffad00;
+        }
+        .progress-bar-success{
+            background-color: #02b502;
+        }
+        .login-btn{
+            width: 180px !important;
+            
+            background-image: linear-gradient(to right, #2691d9, #158bda) !important;
+            font-size: 18px;
+            color: #ffffff;
+            margin: 0 auto 5px;
+            padding: 8px 0;
+        }
+        .login-btn:hover{
+            background-image: linear-gradient(to right, rgba(222, 13, 230, 0.863),rgba(215, 5, 223, 0.863)) !important;
+            color: #ffffff;
+        }
+        .fa-eye{
+            color: #022255;
+            cursor: pointer;
+        }
+        .far{
+            margin-top: 5px;
+        }
+        .ex-account p a{
+            color: #f6086e;
+            text-decoration: underline;
+        }
+        .fa-circle{
+            font-size: 6px;
+            margin-right: 13px;
+        }
+        .fa-check{
+            color: #02b502;
+        }
+    </style>
 </head>
 <body>
-    <h1>This is Login Page</h1>
    <ul>
        <% if (messages.success_msg) { %>
         <li><%= messages.success_msg %></li>
@@ -20,7 +118,7 @@
         <% } %>
     </ul>
 
-    <form action="/users/login" method="POST">
+    <!-- <form action="/users/login" method="POST">
         <div>
             <input type="email" id="email" name="email" placeholder="Email" required/>
         </div>
@@ -33,6 +131,66 @@
         <div>
             <a href="/users/register">Don't Have Account, Go to Register</a>
         </div>
-</form>
+</form> -->
+<div class="container">
+    <form action="/users/login" method="POST" class="form-horizontal" id="validateForm">
+        <h1>Log In</h1>
+        <fieldset>
+            <div class="form-group">
+                <div class="form-group">
+                    <lable for="textinput" class="col-md-12 control-label">
+                        Email
+                    </lable>
+                    <div class="col-md-12">
+                        <input type="email" id="email" name="email" class="form-control input-md" autocomplete="off" placeholder="Enter Your Email address" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="passwordInput" class="col-md-12 control-label">
+                    Password
+                </label>
+                <div class="col-md-12">
+                    <input type="password" id="password" name="password" class="form-control input-md"placeholder="Enter Your password" required>
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+                <button type="submit" value="Login" class="btn login-btn btn-block">Login Button</button> 
+            </div>
+            <div class="ex-account text-center">
+                <p>Create Account <a href="/users/register">Here</a></p>
+            </div>
+        </fieldset>
+    </form>
+</div>
+    <!-- <script>
+        document.getElementById('validateForm').addEventListener('submit', onSubmit);
+
+        function onSubmit(e){
+            e.preventDefault();
+
+            grecaptcha.execute('6LeTAWYgAAAAAPaX6MJcqnxN3Xn_qAnNYkr7V7t1', {action: 'submit'}).then(function(token) {
+
+            // This data is not being used in the back end (Only the token)
+            const email = document.querySelector('#email').value;
+            const password = document.querySelector('#password').value;
+            const captcha = token;
+
+                fetch('/users/login',{
+                method: 'POST',
+                headers:{
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    
+                },
+                body:JSON.stringify({email:email,password:password,captcha:captcha})
+                }).then(res => res.json())
+                .then(data => { alert("msg: " + data.msg + ", success?: " + data.success + ", score: " + data.score)})     
+
+            });
+        }
+    </script> -->
 </body>
 </html>

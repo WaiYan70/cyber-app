@@ -5,6 +5,103 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins%3Awght%40200%3B300%3B400%3B500%3B600&display=swap">
+    <script src="https://kit.fontawesome.com/4b45ccf8de.js" crossorigin="anonymous"></script>
+    <style>
+        body{
+            font-family: 'Poppins' ,sans-serif;
+            background: linear-gradient(120deg, #2980b9, #8e44ad);
+                }
+
+                h1{
+                    margin: 15px 0 25px;
+                    text-align: center;
+                    font-size: 25px;
+                }
+
+                input{
+                    color: #022255 !important;
+                }
+
+                input[type="email"]:focus,
+                input[type="password"]:focus,
+                input[input="text"]:focus {
+                    box-shadow: 0 0 5px rgba(246, 8, 118, .8);
+                    border: 1px solid rgba(246, 8,110, .8);
+                }
+
+                .container{
+                    width: 100%;
+                    height: 100vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .form-horizontal{
+                    width: 400px;
+                    background-color: #ffffff;
+                    padding: 25px 30px;
+                    border-radius: 12px;
+                    box-shadow: 2px 2px 15px rgba(0,0,0,.5);
+                }
+                .control-label{
+                    text-align: left !important;
+                    padding-bottom: 4px;
+                }
+                .progress{
+                    height: 3px !important;
+                }
+                .form-group{
+                    margin-bottom: 10px;
+                }
+                .show-pass{
+                    position: absolute;
+                    top: 5%;
+                    right: 8%;
+                }
+                .progress-bar-danger{
+                    background-color: #e90f10;
+                }
+                .progress-bar-warning{
+                    background-color: #ffad00;
+                }
+                .progress-bar-success{
+                    background-color: #02b502;
+                }
+                .login-btn{
+                    width: 180px !important;
+                    
+                    background-image: linear-gradient(to right, #2691d9, #158bda) !important;
+                    font-size: 18px;
+                    color: #ffffff;
+                    margin: 0 auto 5px;
+                    padding: 8px 0;
+                }
+                .login-btn:hover{
+                    background-image: linear-gradient(to right, rgba(222, 13, 230, 0.863),rgba(215, 5, 223, 0.863)) !important;
+                    color: #ffffff;
+                }
+                .fa-eye{
+                    color: #022255;
+                    cursor: pointer;
+                }
+                .far{
+                    margin-top: 5px;
+                }
+                .ex-account p a{
+                    color: #f6086e;
+                    text-decoration: underline;
+                }
+                .fa-circle{
+                    font-size: 6px;
+                    margin-right: 13px;
+                }
+                .fa-check{
+                    color: #02b502;
+                }   
+    </style>
 </head>
 <body>
     <h1>This is Register Page</h1>
@@ -16,7 +113,7 @@
                 <% }) %>
              <% } %>
     </ul>
-    <form action="/users/register" method="POST">
+    <!-- <form action="/users/register" method="POST">
             <div>
                 <input type="text" id="name" name="name" placeholder="User Name" required/>
             </div>
@@ -35,6 +132,185 @@
             <div>
                 <a href="/users/login">Aleardy Registered? Login Here</a>
             </div>
-    </form>
+    </form> -->
+    <div class="container">
+        <form action="/users/register" method="POST" class="form-horizontal" id="validateForm">
+            <h1>Register</h1>
+            <fieldset>
+                <div class="form-group">
+                    <div class="form-group">
+                        <lable for="textinput" class="col-md-12 control-label">
+                            User Name
+                        </lable>
+                        <div class="col-md-12">
+                            <input type="text" id="name" name="name" class="form-control input-md" autocomplete="off" placeholder="Enter Your User Name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <lable for="textinput" class="col-md-12 control-label">
+                            Email
+                        </lable>
+                        <div class="col-md-12">
+                            <input type="email" id="email" name="email" class="form-control input-md" autocomplete="off" placeholder="Enter Your Email address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput" class="col-md-12 control-label">
+                        Password
+                    </label>
+                    <div class="col-md-12">
+                        <input type="password" id="password" name="password" class="form-control input-md"placeholder="Enter Your password" required>
+                        <span class="show-pass" onclick="toggle()">
+                            <i class="far fa-eye" onclick="myFunction(this)"></i>
+                        </span>
+                        <div id="popover-password">
+                            <p><span id="result"></span></p>
+                            <div class="progress">
+                                <div id="password-strength" class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li>
+                                <span class="low-upper-case">
+                                    <i class="fas fa-circle" aria-hidden="true"></i>Lowercase &amp; Uppercase 
+                                </span>
+                            </li>
+                            <li>
+                                <span class="one-number">
+                                    <i class="fas fa-circle" aria-hidden="true"></i>Number (0-9) 
+                                </span>
+                            </li>
+                            <li>
+                                <span class="one-special-char">
+                                    <i class="fas fa-circle" aria-hidden="true"></i>Special characters (!@#$%^&*) 
+                                </span>
+                            </li>
+                            <li>
+                                <span class="eight-character">
+                                    <i class="fas fa-circle" aria-hidden="true"></i>Atleast 8 characterss 
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- confirm password -->
+                <div class="form-group">
+                    <label for="confirmpasswordInput" class="col-md-12 control-label">
+                        Confirm Password
+                    </label>
+                    <div class="col-md-12">
+                        <input type="password" id="password2" name="password2" class="form-control input-md"  placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" value="Register" class="btn login-btn btn-block"> Create Account</button>
+                </div>
+                <div class="ex-account text-center">
+                    <p>Already have an Account <a href="/users/login">Here</a></p>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <script>
+            let state = false;
+            let password = document.getElementById('password');
+            let passwordStrength = document.getElementById('password-strength');
+            let lowerUpperCase = document.querySelector('.low-upper-case i');
+            let number = document.querySelector('.one-number i');
+            let specialChar = document.querySelector('.one-special-char i');
+            let eightChar = document.querySelector('.eight-character i');
+
+            // fa-eye icon function for password
+            function myFunction(show){
+                show.classList.toggle('fa-eye-slash');
+            }
+
+            function toggle(){
+                if(state){
+                    password.setAttribute("type", "password");
+                    state = false;
+                } else {
+                    password.setAttribute("type", "text");
+                    state = true;
+                }
+            }
+
+            // it is value not nodeValue will fix it later
+            password.addEventListener('keyup', function(){
+                let pass = password.value;
+                checkStrength(pass);
+            });
+
+            function checkStrength(password) {
+                let strength = 0;
+
+                //if password contains lowers and upper case character
+                if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+                    strength += 1;
+                    lowerUpperCase.classList.remove('fa-circle');
+                    lowerUpperCase.classList.add('fa-check');
+                } else {
+                    lowerUpperCase.classList.add('fa-circle');
+                    lowerUpperCase.classList.remove('fa-check');
+                }
+
+                // if password has a number
+                if (password.match(/([0-9])/)) {
+                    strength += 1;
+                    number.classList.add('fa-check');
+                    number.classList.remove('fa-circle');
+                } else {
+                    number.classList.add('fa-circle');
+                    number.classList.remove('fa-check');
+                }
+
+                // if password has one special character
+                if (password.match(/([!,@,#,$,%,^,&,*,_,~])/)) {
+                    strength += 1;
+                    specialChar.classList.remove('fa-circle');
+                    specialChar.classList.add('fa-check');
+                } else {
+                    specialChar.classList.add('fa-circle');
+                    specialChar.classList.remove('fa-check');
+                }
+
+                // if password has more than 7 letters
+                if (password.length > 7) {
+                    strength += 1;
+                    eightChar.classList.add('fa-check');
+                    eightChar.classList.remove('fa-circle');
+                } else {
+                    eightChar.classList.add('fa-circle');
+                    eightChar.classList.remove('fa-check');
+                }
+
+                // Progress Bar for Password Strength
+                if (strength == 0) {
+                    passwordStrength.style = 'width: 0%';
+                } 
+                else if (strength ==2) {
+                    passwordStrength.classList.add('progress-bar-danger');
+                    passwordStrength.classList.remove('progress-bar-warning');
+                    passwordStrength.classList.remove('progress-bar-success');
+                    passwordStrength.style = 'width: 20%';
+                }
+                else if (strength ==3) {
+                    passwordStrength.classList.remove('progress-bar-danger');
+                    passwordStrength.classList.add('progress-bar-warning');
+                    passwordStrength.classList.remove('progress-bar-success');
+                    passwordStrength.style = 'width: 60%';
+                }
+                else if (strength ==4) {
+                    passwordStrength.classList.remove('progress-bar-danger');
+                    passwordStrength.classList.remove('progress-bar-warning');
+                    passwordStrength.classList.add('progress-bar-success');
+                    passwordStrength.style = 'width: 100%';
+                }
+            }
+    </script>
 </body>
 </html>
